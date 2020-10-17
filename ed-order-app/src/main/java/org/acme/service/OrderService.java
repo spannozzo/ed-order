@@ -1,74 +1,64 @@
 package org.acme.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
-
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
 import org.acme.dto.OrderDTO;
 import org.acme.dto.OrderRequestDTO;
+import org.acme.entity.Order;
+import org.acme.exceptions.NotModifiedException;
+import org.acme.repository.OrderRepository;
 
 @Singleton
 public class OrderService {
 
-	static List<OrderDTO> orders=new ArrayList<>();
+	@Inject
+	OrderRepository orderRepository;
 	
-	public Optional<List<OrderDTO>> getOrders() {
+	public Optional<List<Order>> getOrders() {
 		
-		if (orders.isEmpty()) {
-			return Optional.empty();
-		}
-		return Optional.of(orders);
+		return orderRepository.getOrders();
 	}
 	
-	public @Valid OrderDTO saveOrder(@NotNull OrderRequestDTO orderRequestDTO) {
+	public @Valid Order saveOrder(@NotNull OrderRequestDTO orderRequestDTO) {
 		String id=UUID.randomUUID().toString();
 	
-		OrderDTO order=new OrderDTO(id, orderRequestDTO.getStatus(), orderRequestDTO.getTotalAmount());
+		Order order=new Order(id, orderRequestDTO.getStatus(), orderRequestDTO.getTotalAmount());
 		
-		orders.add(order);
+		orderRepository.save(order);
 		
 		return order;
-		
-	}
-	
-	public Optional<OrderDTO> findById(@NotBlank String id) {
-		
-		return orders.parallelStream().filter(order->order.getId().equals(id)).findFirst();
-	}
-	
-	public OrderDTO delete(OrderDTO toDelete) {
-		orders=orders.parallelStream().filter(order -> !order.equals(toDelete)).collect(Collectors.toList());
-		
-		return new OrderDTO(toDelete.getId(), "DELETED", toDelete.getTotalAmount());
-	}
-	
-	public @Valid OrderDTO edit(OrderDTO toEdit) {
 				
-		orders.parallelStream().forEach(order->{
-			if (order.equals(toEdit)) {
-				
-				this.patch(order,toEdit);
-				return;
-			}
-		});
-		
-		return toEdit;
 	}
-
-	void patch(OrderDTO toEdit, OrderDTO newValues) {
-		if (newValues.getStatus()!=null && !newValues.getStatus().isEmpty()) {
-			toEdit.setStatus(newValues.getStatus());
+	
+	public Optional<Order> findById(@NotBlank String id) {
+		
+		return orderRepository.findById(id);
+	}
+	
+	public void delete(Order toDelete) {
+		orderRepository.delete(toDelete);
+	}
+	
+	public void edit(@NotNull Order order,@NotNull OrderDTO editRequestDTO) { 
+  
+		boolean isSameStatus=order.status.equals(editRequestDTO.getStatus());
+		boolean isSameAmount=order.totalAmount.equals(editRequestDTO.getTotalAmount());
+		
+		if (isSameStatus && isSameAmount) {
+			throw new NotModifiedException("Nothing to modify");
 		}
-		if (newValues.getTotalAmount()!=null && newValues.getTotalAmount()>=0) {
-			toEdit.setTotalAmount(newValues.getTotalAmount());
+		
+		if (!isSameAmount) {
+			order.status=editRequestDTO.getStatus();
 		}
+		
+		orderRepository.edit(order,editRequestDTO);
 	}
 	
 }

@@ -4,7 +4,7 @@ services:
     image: jboss/keycloak:8.0.1
     container_name: "keycloak"
     volumes:
-      - ./realms/realm-import.json:/tmp/realm-import.json
+      - ./realms/:/tmp/
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin

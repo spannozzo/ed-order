@@ -8,7 +8,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -22,6 +21,7 @@ import javax.ws.rs.core.Response;
 
 import org.acme.dto.OrderDTO;
 import org.acme.dto.OrderRequestDTO;
+import org.acme.entity.Order;
 import org.acme.service.OrderService;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -61,13 +61,13 @@ public class OrderController {
 	})
 	public Response getOrders() {
 
-		Optional<List<OrderDTO>> maybeOrders=orderService.getOrders();
+		Optional<List<Order>> maybeOrders=orderService.getOrders();
 				
 		if (maybeOrders.isEmpty()) {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
 		
-		return Response.status(Response.Status.OK).entity(maybeOrders.get()).build();
+		return Response.status(Response.Status.OK).entity(OrderDTO.map(maybeOrders.get())).build();
 		
 
 	}
@@ -94,7 +94,9 @@ public class OrderController {
 			@Valid OrderRequestDTO orderRequestDTO){
 
 		
-		return Response.status(Response.Status.CREATED).entity(orderService.saveOrder(orderRequestDTO)).build();
+		Order savedOrder=orderService.saveOrder(orderRequestDTO);
+		
+		return Response.status(Response.Status.CREATED).entity(OrderDTO.fromEntityToDTO(savedOrder)).build();
 
 	}
 	
@@ -122,13 +124,13 @@ public class OrderController {
 			@PathParam(value = "id") @NotBlank String id) {
 
 		
-		Optional<OrderDTO> maybeOrder=orderService.findById(id);
+		Optional<Order> maybeOrder=orderService.findById(id);
 				
 		if (maybeOrder.isEmpty()) {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
 		
-		return Response.status(Response.Status.OK).entity(maybeOrder.get()).build();
+		return Response.status(Response.Status.OK).entity(OrderDTO.fromEntityToDTO(maybeOrder.get())).build();
 		
 
 	}
@@ -158,13 +160,17 @@ public class OrderController {
 			@PathParam(value = "id") @NotBlank String id){
 
 		
-		Optional<OrderDTO> maybeIsStored=orderService.findById(id);
+		Optional<Order> maybeIsStored=orderService.findById(id);
 		
 		if (maybeIsStored.isEmpty()) {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
 		
-		return Response.status(Response.Status.OK).entity(orderService.delete(maybeIsStored.get())).build();
+		Order toDelete=maybeIsStored.get();
+		
+		orderService.delete(toDelete);
+		
+		return Response.status(Response.Status.OK).entity(OrderDTO.getDeleted(toDelete)).build();
 
 	}
 
@@ -196,22 +202,17 @@ public class OrderController {
 			){
 
 		
-		Optional<OrderDTO> maybeIsStored=orderService.findById(editRequestDTO.getId());
-		
+		Optional<Order> maybeIsStored=orderService.findById(editRequestDTO.getId());
+				
 		if (maybeIsStored.isEmpty()) {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
 		
-		OrderDTO retrievedOrder=maybeIsStored.get();
-		boolean isSameStatus=retrievedOrder.getStatus().equals(editRequestDTO.getStatus());
-		boolean isSameAmount=retrievedOrder.getTotalAmount().equals(editRequestDTO.getTotalAmount());
+		Order toEdit=maybeIsStored.get();
 		
-		if (isSameStatus && isSameAmount) {
-			return Response.status(Response.Status.NOT_MODIFIED).build();
-		}
+		orderService.edit(toEdit,editRequestDTO);
 		
-		
-		return Response.status(Response.Status.OK).entity(orderService.edit(editRequestDTO)).build();
+		return Response.status(Response.Status.OK).entity(OrderDTO.patch(toEdit,editRequestDTO)).build();
 
 	}
 }
