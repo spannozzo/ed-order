@@ -8,7 +8,6 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyOrNullString;
-import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
@@ -17,8 +16,6 @@ import java.util.UUID;
 
 import org.acme.dto.OrderDTO;
 import org.acme.dto.OrderRequestDTO;
-
-import static org.hamcrest.Matchers.containsString;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.microprofile.config.inject.ConfigProperty;

@@ -30,6 +30,9 @@ public class BeanValidationExceptionMapper implements ExceptionMapper<Validation
 		if (exception instanceof ConstraintViolationException) {
 			return manageConstraintViolations((ConstraintViolationException) exception);
 		}
+		if (exception instanceof NotModifiedException) {
+			return status(Response.Status.NOT_MODIFIED).entity(exception.getMessage()).build();
+		}
 				
 		LOG.fatal("Internal Server Error. "+exception.getMessage() );
 		

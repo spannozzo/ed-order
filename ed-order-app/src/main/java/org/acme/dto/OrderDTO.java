@@ -1,8 +1,12 @@
 package org.acme.dto;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 
+import org.acme.entity.Order;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @Schema(name="Order DTO", description="Return information about an order")
@@ -65,6 +69,35 @@ public class OrderDTO {
 		}
 		return false;
 	}
-	
+
+	public static List<OrderDTO> map(List<Order> list) {
+		
+		return list
+				.parallelStream()
+				.map(OrderDTO::fromEntityToDTO)
+				.collect(Collectors.toList())
+			
+				
+				;
+		
+	}
+	public static OrderDTO fromEntityToDTO(Order order) {
+		return new OrderDTO(order.id,order.status,order.totalAmount);
+	}
+
+	public static OrderDTO getDeleted(Order order) {
+		return new OrderDTO(order.id,"DELETED",order.totalAmount);
+
+	}
+
+	public static OrderDTO patch(Order toEdit, OrderDTO newValues) {
+		if (newValues.getStatus()!=null && !newValues.getStatus().isEmpty()) {
+			toEdit.status=newValues.getStatus();
+		}
+		if (newValues.getTotalAmount()!=null && newValues.getTotalAmount()>=0) {
+			toEdit.totalAmount=newValues.getTotalAmount();
+		}
+		return fromEntityToDTO(toEdit);
+	}
 	
 }
