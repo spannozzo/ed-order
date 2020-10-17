@@ -1,32 +1,5 @@
 version: '3' 
 services:
-  app:
-    
-    restart: always
-    image: spannozzo/ed-order-app:latest
-    build: 
-      context: ./ed-order-app/
-      dockerfile: ./src/main/docker/Dockerfile.jvm
-    container_name: order-app  
-    # volumes:
-      # - ./ed-order-app/src/main/resources/import.sql/:/import.sql
-    environment:
-      - quarkus.oidc.auth-server-url= http://keycloak:8080/auth/realms/ed-realm/
-      - quarkus.oidc.token.issuer=http://localhost:33174/auth/realms/ed-realm/
-      - quarkus.datasource.jdbc.url=jdbc:postgresql://db:5432/order_db
-      - quarkus.datasource.username=root
-      - quarkus.datasource.password=1234
-      - quarkus.hibernate-orm.log.sql=true
-      - quarkus.hibernate-orm.sql-load-script=import.sql
-    ports:
-      - '8080:8080'
-    expose:
-      - '8080'
-    depends_on:
-      - "db"
-      - "keycloak"
-    networks:
-      - network-internal
   db: 
     image: postgres:alpine
     container_name: "db_app"
