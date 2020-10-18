@@ -20,7 +20,8 @@ import static javax.ws.rs.core.Response.status;
 
 /**
  * 
- * intercept the validation exceptions in order to send a message
+ * intercept the validation exceptions in order to send a message, 
+ * I used also as global entry point for handling 500 and 304 error messages
  *
  */
 @Provider
@@ -34,7 +35,7 @@ public class BeanValidationExceptionMapper implements ExceptionMapper<Validation
 			return manageConstraintViolations((ConstraintViolationException) exception);
 		}
 		if (exception instanceof NotModifiedException) {
-			
+			// 304 dons't require a body, or the client will remain connected
 			return status(Response.Status.NOT_MODIFIED)
 					.header("If-Modified-Since", exception.getMessage())
 					.build();
