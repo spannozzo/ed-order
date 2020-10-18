@@ -51,7 +51,7 @@ public class OrderService {
 		boolean isSameAmount=order.totalAmount.equals(editRequestDTO.getTotalAmount());
 		
 		if (isSameStatus && isSameAmount) {
-			throw new NotModifiedException("Nothing to modify");
+			throw new NotModifiedException(order.upadtedAt.toString());
 		}
 		
 		if (!isSameAmount) {

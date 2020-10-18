@@ -1,32 +1,61 @@
 version: '3' 
 services:
-  app:
-    
-    restart: always
-    image: spannozzo/ed-order-app:latest
-    build: 
-      context: ./ed-order-app/
-      dockerfile: ./src/main/docker/Dockerfile.jvm
-    container_name: order-app  
-    # volumes:
-      # - ./ed-order-app/src/main/resources/import.sql/:/import.sql
-    environment:
-      - quarkus.oidc.auth-server-url= http://keycloak:8080/auth/realms/ed-realm/
-      - quarkus.oidc.token.issuer=http://localhost:33174/auth/realms/ed-realm/
-      - quarkus.datasource.jdbc.url=jdbc:postgresql://db:5432/order_db
-      - quarkus.datasource.username=root
-      - quarkus.datasource.password=1234
-      - quarkus.hibernate-orm.log.sql=true
-      - quarkus.hibernate-orm.sql-load-script=import.sql
+  zookeeper:
+    image: strimzi/kafka:0.11.3-kafka-2.1.0
+    command: [
+      "sh", "-c",
+      "bin/zookeeper-server-start.sh config/zookeeper.properties"
+    ]
     ports:
-      - '8080:8080'
-    expose:
-      - '8080'
-    depends_on:
-      - "db"
-      - "keycloak"
+      - "9093:2181"
+    environment:
+      LOG_DIR: /tmp/logs
     networks:
       - network-internal
+  kafka:
+    image: strimzi/kafka:0.11.3-kafka-2.1.0
+    command: [
+      "sh", "-c",
+      "bin/kafka-server-start.sh config/server.properties --override listeners=$${KAFKA_LISTENERS} --override advertised.listeners=$${KAFKA_ADVERTISED_LISTENERS} --override zookeeper.connect=$${KAFKA_ZOOKEEPER_CONNECT}"
+    ]
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      LOG_DIR: "/tmp/logs"
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    networks:
+      - network-internal
+  # app:
+    
+    # restart: always
+    # image: spannozzo/ed-order-app:latest
+    # build: 
+      # context: ./ed-order-app/
+      # dockerfile: ./src/main/docker/Dockerfile.jvm
+    # container_name: order-app  
+    volumes:
+      - ./ed-order-app/src/main/resources/import.sql/:/import.sql
+    # environment:
+      # - quarkus.oidc.auth-server-url= http://keycloak:8080/auth/realms/ed-realm/
+      # - quarkus.oidc.token.issuer=http://localhost:33174/auth/realms/ed-realm/
+      # - quarkus.datasource.jdbc.url=jdbc:postgresql://db:5432/order_db
+      # - quarkus.datasource.username=root
+      # - quarkus.datasource.password=1234
+      # - quarkus.hibernate-orm.log.sql=true
+      # - quarkus.hibernate-orm.sql-load-script=import.sql
+    # ports:
+      # - '8080:8080'
+    # expose:
+      # - '8080'
+    # depends_on:
+      # - "db"
+      # - "keycloak"
+    # networks:
+      # - network-internal
   db: 
     image: postgres:alpine
     container_name: "db_app"

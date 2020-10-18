@@ -1,5 +1,8 @@
 package org.acme.exceptions;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -31,7 +34,10 @@ public class BeanValidationExceptionMapper implements ExceptionMapper<Validation
 			return manageConstraintViolations((ConstraintViolationException) exception);
 		}
 		if (exception instanceof NotModifiedException) {
-			return status(Response.Status.NOT_MODIFIED).entity(exception.getMessage()).build();
+			
+			return status(Response.Status.NOT_MODIFIED)
+					.header("If-Modified-Since", exception.getMessage())
+					.build();
 		}
 				
 		LOG.fatal("Internal Server Error. "+exception.getMessage() );

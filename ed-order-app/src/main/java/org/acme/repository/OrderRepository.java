@@ -62,6 +62,7 @@ public class OrderRepository {
 
 		
 		em.merge(order);
+		
 	}
 
 	@Transactional
