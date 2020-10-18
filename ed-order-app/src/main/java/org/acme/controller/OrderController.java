@@ -2,6 +2,7 @@ package org.acme.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
@@ -19,6 +20,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.acme.dto.MessageDTO;
 import org.acme.dto.OrderDTO;
 import org.acme.dto.OrderRequestDTO;
 import org.acme.entity.Order;
@@ -33,6 +35,8 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
 
 import io.quarkus.security.Authenticated;
 
@@ -44,6 +48,10 @@ public class OrderController {
 
 	@Inject
 	OrderService orderService;
+	
+	@Inject 
+	@Channel("m2") 
+	Emitter<MessageDTO> messageEmitter;
 
 	@RolesAllowed({"user","admin"})
 	@SecurityRequirement(name = "oauth2")
@@ -210,9 +218,22 @@ public class OrderController {
 		
 		Order toEdit=maybeIsStored.get();
 		
-		orderService.edit(toEdit,editRequestDTO);
+		String oldStatus=toEdit.status;
 		
-		return Response.status(Response.Status.OK).entity(OrderDTO.patch(toEdit,editRequestDTO)).build();
+		orderService.edit(toEdit,editRequestDTO);
+			
+		checkAndSend(toEdit, oldStatus);
+		
+		return Response.status(Response.Status.OK).entity(OrderDTO.fromEntityToDTO(toEdit)).build();
 
+	}
+	
+	void checkAndSend(Order toEdit, String oldStatus) {
+		if (!toEdit.status.equals(oldStatus)) {
+			
+			MessageDTO message=MessageDTO.fromOrderToMessage(oldStatus,toEdit);
+			
+			messageEmitter.send(message);  
+		}
 	}
 }

@@ -20,7 +20,7 @@ public class Order extends PanacheEntityBase{
 	public Double totalAmount;
 	
 	public LocalDateTime createdAt;
-//	
+	
 	public LocalDateTime upadtedAt;
 
 	public Order() {
