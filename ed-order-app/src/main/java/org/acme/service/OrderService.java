@@ -3,6 +3,7 @@ package org.acme.service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -47,7 +48,10 @@ public class OrderService {
 	public void delete(Order toDelete) {
 		orderRepository.delete(toDelete);
 	}
-	
+	/*
+	 * if there is nothing to change from the edit request, it will throw an exception
+	 * and it will pass the last update datetime (if is present)
+	 */
 	public void edit(@NotNull Order order,@NotNull OrderDTO editRequestDTO) { 
   
 		boolean isSameStatus=order.status.equals(editRequestDTO.getStatus());
@@ -60,7 +64,8 @@ public class OrderService {
 			if (order.createdAt!=null) {
 				throw new NotModifiedException(order.createdAt.toString());
 			}
-			throw new NotModifiedException(LocalDateTime.ofInstant(Instant.now(), ZoneOffset.systemDefault()).toString());
+			//no date found on db, I'm passing ephoc date
+			throw new NotModifiedException(LocalDateTime.ofInstant(Instant.EPOCH, ZoneOffset.systemDefault()).toString());
 		}
 		
 		if (!isSameAmount) {
