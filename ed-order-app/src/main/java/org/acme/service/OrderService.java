@@ -1,5 +1,8 @@
 package org.acme.service;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -51,7 +54,13 @@ public class OrderService {
 		boolean isSameAmount=order.totalAmount.equals(editRequestDTO.getTotalAmount());
 		
 		if (isSameStatus && isSameAmount) {
-			throw new NotModifiedException(order.upadtedAt.toString());
+			if (order.upadtedAt!=null) {
+				throw new NotModifiedException(order.upadtedAt.toString());
+			}
+			if (order.createdAt!=null) {
+				throw new NotModifiedException(order.createdAt.toString());
+			}
+			throw new NotModifiedException(LocalDateTime.ofInstant(Instant.now(), ZoneOffset.systemDefault()).toString());
 		}
 		
 		if (!isSameAmount) {
