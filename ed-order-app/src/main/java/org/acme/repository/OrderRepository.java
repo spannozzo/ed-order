@@ -13,7 +13,6 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.control.ActivateRequestContext;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -25,16 +24,11 @@ import javax.json.JsonValue;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
-import javax.ws.rs.core.Response;
-
 import org.acme.dto.OrderDTO;
 import org.acme.entity.Order;
-import org.acme.health.HealtCheckRestClient;
 import org.apache.http.HttpStatus;
 import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Fallback;
-import org.eclipse.microprofile.faulttolerance.Timeout;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 
 
@@ -177,7 +171,8 @@ public class OrderRepository {
 	public void fallbackAllignDB() {
 		staticRepository.setFalling(true);
 	}
-//	@Timeout(value = 200000)
+
+	@Fallback (fallbackMethod = "fallbackAllignDB")
 	void synchStaticListWithDB() {
 		if (staticRepository.wasFalling()) {
 			HttpRequest request = HttpRequest.newBuilder()
@@ -220,19 +215,14 @@ public class OrderRepository {
 
 		}
 	}
-	private void disableStaticFallBack() {
-		staticRepository.setFalling(false);
-	}
+	
 	private void syncStaticListDeleteOk(Order toDelete) {
-		staticRepository.setFalling(false);
 		staticRepository.delete(toDelete);
 	}
 	private void syncStaticListSaveOk(Order order) {
-		staticRepository.setFalling(false);
 		staticRepository.save(order);
 	}
 	private void syncStaticListEditOk(Order order, OrderDTO editRequestDTO) {
-		staticRepository.setFalling(false);
 		staticRepository.edit(order, editRequestDTO);
 	}
 }

@@ -2,8 +2,6 @@ package org.acme.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
