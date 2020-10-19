@@ -18,7 +18,7 @@ public class OrderMessageListener {
 	
     static final Logger LOG = Logger.getLogger(OrderMessageListener.class);
 	
-	@Incoming("m1")
+	@Incoming("logging-change-status")
 	public CompletionStage<Void> processKafkaChar(Message<JsonObject> message) {
 		return CompletableFuture.runAsync(() -> {
 			StringBuilder sb=new StringBuilder();
