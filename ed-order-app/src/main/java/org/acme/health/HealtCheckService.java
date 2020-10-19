@@ -23,8 +23,8 @@ import org.jboss.logging.Logger;
 @Singleton
 public class HealtCheckService {
 
-	@ConfigProperty(name = "quarkus.http.port")
-	String httpPort;
+	@ConfigProperty(name = "acme.http.port")
+	Integer httpPort;
 	
 	private static final HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_1_1)
@@ -32,8 +32,6 @@ public class HealtCheckService {
             .build();
 
     static final Logger LOG = Logger.getLogger(HealtCheckService.class);
-
-	final String healcheckReadyUrl="http://localhost:"+httpPort+"/health/ready";
     
 	HttpRequest request=null;
 	
@@ -42,7 +40,7 @@ public class HealtCheckService {
 		if (request==null) {
 			request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create(healcheckReadyUrl))
+                .uri(URI.create("http://localhost:"+httpPort+"/health/ready"))
                 .build();
 		}
 		

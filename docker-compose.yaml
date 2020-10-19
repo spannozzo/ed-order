@@ -70,7 +70,7 @@ services:
       - quarkus.datasource.username=root
       - quarkus.datasource.password=1234
       - quarkus.hibernate-orm.log.sql=true
-      #- quarkus.hibernate-orm.sql-load-script=import.sql
+      - acme.http.port=8080
     ports:
       - '8080:8080'
     expose:
