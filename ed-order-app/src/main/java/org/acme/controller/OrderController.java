@@ -25,6 +25,7 @@ import org.acme.dto.OrderDTO;
 import org.acme.dto.OrderRequestDTO;
 import org.acme.entity.Order;
 import org.acme.service.OrderService;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
@@ -52,6 +53,9 @@ public class OrderController {
 	@Inject 
 	@Channel("m2") 
 	Emitter<MessageDTO> messageEmitter;
+
+	@ConfigProperty(name = "acme.messaging.enabled")
+	private boolean messagesAreEnabled;
 
 	@RolesAllowed({"user","admin"})
 	@SecurityRequirement(name = "oauth2")
@@ -229,11 +233,13 @@ public class OrderController {
 	}
 	
 	void checkAndSend(Order toEdit, String oldStatus) {
-		if (!toEdit.status.equals(oldStatus)) {
+		if (messagesAreEnabled) {
 			
-			MessageDTO message=MessageDTO.fromOrderToMessage(oldStatus,toEdit);
-			
-			messageEmitter.send(message);  
+			if (!toEdit.status.equals(oldStatus)) {
+				
+				MessageDTO message=MessageDTO.fromOrderToMessage(oldStatus,toEdit);
+				messageEmitter.send(message);  
+			}
 		}
 	}
 }
