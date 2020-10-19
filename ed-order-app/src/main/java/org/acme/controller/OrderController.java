@@ -2,8 +2,6 @@ package org.acme.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -20,10 +18,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.acme.dto.MessageDTO;
 import org.acme.dto.OrderDTO;
 import org.acme.dto.OrderRequestDTO;
 import org.acme.entity.Order;
+import org.acme.service.ChangeStatusService;
 import org.acme.service.OrderService;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -35,9 +33,6 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
-import org.eclipse.microprofile.reactive.messaging.Channel;
-import org.eclipse.microprofile.reactive.messaging.Emitter;
-
 import io.quarkus.security.Authenticated;
 
 @RequestScoped
@@ -49,9 +44,8 @@ public class OrderController {
 	@Inject
 	OrderService orderService;
 	
-	@Inject 
-	@Channel("m2") 
-	Emitter<MessageDTO> messageEmitter;
+	@Inject
+	ChangeStatusService changeStautsService;
 
 	@RolesAllowed({"user","admin"})
 	@SecurityRequirement(name = "oauth2")
@@ -222,18 +216,11 @@ public class OrderController {
 		
 		orderService.edit(toEdit,editRequestDTO);
 			
-		checkAndSend(toEdit, oldStatus);
+		changeStautsService.checkAndSend(toEdit, oldStatus);
 		
 		return Response.status(Response.Status.OK).entity(OrderDTO.fromEntityToDTO(toEdit)).build();
 
 	}
 	
-	void checkAndSend(Order toEdit, String oldStatus) {
-		if (!toEdit.status.equals(oldStatus)) {
-			
-			MessageDTO message=MessageDTO.fromOrderToMessage(oldStatus,toEdit);
-			
-			messageEmitter.send(message);  
-		}
-	}
+	
 }
