@@ -1,0 +1,1033 @@
+{
+	"info": {
+		"_postman_id": "448c2562-4196-429d-8512-006fb8e56273",
+		"name": "ED Order Main Application",
+		"description": "Contact Support:\n Name: spannozzo\n Email: spannozzo@acme.org",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "get one order from its id",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessToken",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ4bUc1TnhTb3FtY3lGX3RaanczNWFRTmhGdUdzNWptZjc0QW1fcVU2U05NIn0.eyJqdGkiOiJlZThiODQ5NS1mNDVmLTRjOTQtODJkOS1mZWFkOTkxMTVmNGIiLCJleHAiOjE2MDMwOTczMzYsIm5iZiI6MCwiaWF0IjoxNjAzMDk3MDM2LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMzMTc0L2F1dGgvcmVhbG1zL2VkLXJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImFiMjFkM2Q4LTMwYjEtNGQ1Zi1hMWZjLWRjYzM3MDY5YzBjZiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImJhY2tlbmQtc2VydmljZSIsImF1dGhfdGltZSI6MTYwMzA5MzQyNiwic2Vzc2lvbl9zdGF0ZSI6IjUzNmVhODM2LTAzM2MtNGMyNi05MzUxLTRjMmY5MjdjNWJkOCIsImFjciI6IjAiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiYWRtaW4iLCJ1c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwidXNlcl9uYW1lIjoiYWRtaW4iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.JgojGSLSnP0q73FnGscBVb5OPKkJPLeAftF7iUC9-YvUinj3WowJnMoF3degqSZ6JPio9C_ORIGBVVKLhNHvdlL9FhBg6PM48AWWmRwH_VPL40HKtW5FLcWyBbbL914faW7Y33FUUIMFzcXUCwp2UE_tqNxPjuBO6STZT2azAAfWsPoriB2dK-9ArBbg3_NGoHTcbbcDmQmD3l4z8ZDp6BRrtkgyPG__c4oyoQkvPY5xLKLSrOSSzX475XILSBP9prScNWczfRqo0bFp378RRqeVcuuxk_OmbZ1ci1YkgNteODkLAmZhhmDaMPpSXYragJgNHo9Bl7PhmKh1ojOcxw",
+											"type": "string"
+										},
+										{
+											"key": "tokenType",
+											"value": "bearer",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/3777616f-a80e-4b24-a20f-55e947a81b07",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"3777616f-a80e-4b24-a20f-55e947a81b07"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Invalid credentials",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": {
+													"content": "Added as a part of security scheme: bearer",
+													"type": "text/plain"
+												},
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/orders/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"orders",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"\""
+								},
+								{
+									"name": "Couldn't find any order",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": {
+													"content": "Added as a part of security scheme: bearer",
+													"type": "text/plain"
+												},
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/orders/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"orders",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"\""
+								},
+								{
+									"name": "Order rapresentation",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": {
+													"content": "Added as a part of security scheme: bearer",
+													"type": "text/plain"
+												},
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/orders/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"orders",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"status\": \"Dispatched\",\n \"totalAmount\": 99.99,\n \"id\": \"3777616f-a80e-4b24-a20f-55e947a81b07\"\n}"
+								}
+							]
+						},
+						{
+							"name": "remove an order",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessToken",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ4bUc1TnhTb3FtY3lGX3RaanczNWFRTmhGdUdzNWptZjc0QW1fcVU2U05NIn0.eyJqdGkiOiJlZThiODQ5NS1mNDVmLTRjOTQtODJkOS1mZWFkOTkxMTVmNGIiLCJleHAiOjE2MDMwOTczMzYsIm5iZiI6MCwiaWF0IjoxNjAzMDk3MDM2LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMzMTc0L2F1dGgvcmVhbG1zL2VkLXJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImFiMjFkM2Q4LTMwYjEtNGQ1Zi1hMWZjLWRjYzM3MDY5YzBjZiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImJhY2tlbmQtc2VydmljZSIsImF1dGhfdGltZSI6MTYwMzA5MzQyNiwic2Vzc2lvbl9zdGF0ZSI6IjUzNmVhODM2LTAzM2MtNGMyNi05MzUxLTRjMmY5MjdjNWJkOCIsImFjciI6IjAiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiYWRtaW4iLCJ1c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwidXNlcl9uYW1lIjoiYWRtaW4iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.JgojGSLSnP0q73FnGscBVb5OPKkJPLeAftF7iUC9-YvUinj3WowJnMoF3degqSZ6JPio9C_ORIGBVVKLhNHvdlL9FhBg6PM48AWWmRwH_VPL40HKtW5FLcWyBbbL914faW7Y33FUUIMFzcXUCwp2UE_tqNxPjuBO6STZT2azAAfWsPoriB2dK-9ArBbg3_NGoHTcbbcDmQmD3l4z8ZDp6BRrtkgyPG__c4oyoQkvPY5xLKLSrOSSzX475XILSBP9prScNWczfRqo0bFp378RRqeVcuuxk_OmbZ1ci1YkgNteODkLAmZhhmDaMPpSXYragJgNHo9Bl7PhmKh1ojOcxw",
+											"type": "string"
+										},
+										{
+											"key": "tokenType",
+											"value": "bearer",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/3777616f-a80e-4b24-a20f-55e947a81b08",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"3777616f-a80e-4b24-a20f-55e947a81b08"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Order deleted",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": {
+													"content": "Added as a part of security scheme: bearer",
+													"type": "text/plain"
+												},
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/orders/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"orders",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"status\": \"Dispatched\",\n \"totalAmount\": 99.99,\n \"id\": \"3777616f-a80e-4b24-a20f-55e947a81b07\"\n}"
+								},
+								{
+									"name": "Invalid credentials",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": {
+													"content": "Added as a part of security scheme: bearer",
+													"type": "text/plain"
+												},
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/orders/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"orders",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"\""
+								},
+								{
+									"name": "Bad request",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": {
+													"content": "Added as a part of security scheme: bearer",
+													"type": "text/plain"
+												},
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/orders/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"orders",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"\""
+								},
+								{
+									"name": "Couldn't find order to delete",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": {
+													"content": "Added as a part of security scheme: bearer",
+													"type": "text/plain"
+												},
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/orders/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"orders",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"\""
+								}
+							]
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "get list of orders",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ4bUc1TnhTb3FtY3lGX3RaanczNWFRTmhGdUdzNWptZjc0QW1fcVU2U05NIn0.eyJqdGkiOiJlZThiODQ5NS1mNDVmLTRjOTQtODJkOS1mZWFkOTkxMTVmNGIiLCJleHAiOjE2MDMwOTczMzYsIm5iZiI6MCwiaWF0IjoxNjAzMDk3MDM2LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMzMTc0L2F1dGgvcmVhbG1zL2VkLXJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImFiMjFkM2Q4LTMwYjEtNGQ1Zi1hMWZjLWRjYzM3MDY5YzBjZiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImJhY2tlbmQtc2VydmljZSIsImF1dGhfdGltZSI6MTYwMzA5MzQyNiwic2Vzc2lvbl9zdGF0ZSI6IjUzNmVhODM2LTAzM2MtNGMyNi05MzUxLTRjMmY5MjdjNWJkOCIsImFjciI6IjAiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiYWRtaW4iLCJ1c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwidXNlcl9uYW1lIjoiYWRtaW4iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.JgojGSLSnP0q73FnGscBVb5OPKkJPLeAftF7iUC9-YvUinj3WowJnMoF3degqSZ6JPio9C_ORIGBVVKLhNHvdlL9FhBg6PM48AWWmRwH_VPL40HKtW5FLcWyBbbL914faW7Y33FUUIMFzcXUCwp2UE_tqNxPjuBO6STZT2azAAfWsPoriB2dK-9ArBbg3_NGoHTcbbcDmQmD3l4z8ZDp6BRrtkgyPG__c4oyoQkvPY5xLKLSrOSSzX475XILSBP9prScNWczfRqo0bFp378RRqeVcuuxk_OmbZ1ci1YkgNteODkLAmZhhmDaMPpSXYragJgNHo9Bl7PhmKh1ojOcxw",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List of Orders",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": {
+											"content": "Added as a part of security scheme: bearer",
+											"type": "text/plain"
+										},
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n {\n  \"status\": \"Dispatched\",\n  \"totalAmount\": 99.99,\n  \"id\": \"3777616f-a80e-4b24-a20f-55e947a81b07\"\n },\n {\n  \"status\": \"Dispatched\",\n  \"totalAmount\": 99.99,\n  \"id\": \"3777616f-a80e-4b24-a20f-55e947a81b07\"\n }\n]"
+						},
+						{
+							"name": "Invalid credentials",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": {
+											"content": "Added as a part of security scheme: bearer",
+											"type": "text/plain"
+										},
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"\""
+						},
+						{
+							"name": "Couldn't find any order",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": {
+											"content": "Added as a part of security scheme: bearer",
+											"type": "text/plain"
+										},
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"\""
+						}
+					]
+				},
+				{
+					"name": "save an order",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ4bUc1TnhTb3FtY3lGX3RaanczNWFRTmhGdUdzNWptZjc0QW1fcVU2U05NIn0.eyJqdGkiOiJlZThiODQ5NS1mNDVmLTRjOTQtODJkOS1mZWFkOTkxMTVmNGIiLCJleHAiOjE2MDMwOTczMzYsIm5iZiI6MCwiaWF0IjoxNjAzMDk3MDM2LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMzMTc0L2F1dGgvcmVhbG1zL2VkLXJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImFiMjFkM2Q4LTMwYjEtNGQ1Zi1hMWZjLWRjYzM3MDY5YzBjZiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImJhY2tlbmQtc2VydmljZSIsImF1dGhfdGltZSI6MTYwMzA5MzQyNiwic2Vzc2lvbl9zdGF0ZSI6IjUzNmVhODM2LTAzM2MtNGMyNi05MzUxLTRjMmY5MjdjNWJkOCIsImFjciI6IjAiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiYWRtaW4iLCJ1c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwidXNlcl9uYW1lIjoiYWRtaW4iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.JgojGSLSnP0q73FnGscBVb5OPKkJPLeAftF7iUC9-YvUinj3WowJnMoF3degqSZ6JPio9C_ORIGBVVKLhNHvdlL9FhBg6PM48AWWmRwH_VPL40HKtW5FLcWyBbbL914faW7Y33FUUIMFzcXUCwp2UE_tqNxPjuBO6STZT2azAAfWsPoriB2dK-9ArBbg3_NGoHTcbbcDmQmD3l4z8ZDp6BRrtkgyPG__c4oyoQkvPY5xLKLSrOSSzX475XILSBP9prScNWczfRqo0bFp378RRqeVcuuxk_OmbZ1ci1YkgNteODkLAmZhhmDaMPpSXYragJgNHo9Bl7PhmKh1ojOcxw",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"SHIPPED\",\n    \"totalAmount\": 58.9\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Bad request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": {
+											"content": "Added as a part of security scheme: bearer",
+											"type": "text/plain"
+										},
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": \"Dispatched\",\n    \"totalAmount\": 99.99\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"\""
+						},
+						{
+							"name": "Invalid credentials",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": {
+											"content": "Added as a part of security scheme: bearer",
+											"type": "text/plain"
+										},
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": \"Dispatched\",\n    \"totalAmount\": 99.99\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"\""
+						},
+						{
+							"name": "Order created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": {
+											"content": "Added as a part of security scheme: bearer",
+											"type": "text/plain"
+										},
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": \"Dispatched\",\n    \"totalAmount\": 99.99\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"status\": \"Dispatched\",\n \"totalAmount\": 99.99,\n \"id\": \"3777616f-a80e-4b24-a20f-55e947a81b07\"\n}"
+						}
+					]
+				},
+				{
+					"name": "edit an order",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessToken",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ4bUc1TnhTb3FtY3lGX3RaanczNWFRTmhGdUdzNWptZjc0QW1fcVU2U05NIn0.eyJqdGkiOiJlZThiODQ5NS1mNDVmLTRjOTQtODJkOS1mZWFkOTkxMTVmNGIiLCJleHAiOjE2MDMwOTczMzYsIm5iZiI6MCwiaWF0IjoxNjAzMDk3MDM2LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMzMTc0L2F1dGgvcmVhbG1zL2VkLXJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImFiMjFkM2Q4LTMwYjEtNGQ1Zi1hMWZjLWRjYzM3MDY5YzBjZiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImJhY2tlbmQtc2VydmljZSIsImF1dGhfdGltZSI6MTYwMzA5MzQyNiwic2Vzc2lvbl9zdGF0ZSI6IjUzNmVhODM2LTAzM2MtNGMyNi05MzUxLTRjMmY5MjdjNWJkOCIsImFjciI6IjAiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiYWRtaW4iLCJ1c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwidXNlcl9uYW1lIjoiYWRtaW4iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.JgojGSLSnP0q73FnGscBVb5OPKkJPLeAftF7iUC9-YvUinj3WowJnMoF3degqSZ6JPio9C_ORIGBVVKLhNHvdlL9FhBg6PM48AWWmRwH_VPL40HKtW5FLcWyBbbL914faW7Y33FUUIMFzcXUCwp2UE_tqNxPjuBO6STZT2azAAfWsPoriB2dK-9ArBbg3_NGoHTcbbcDmQmD3l4z8ZDp6BRrtkgyPG__c4oyoQkvPY5xLKLSrOSSzX475XILSBP9prScNWczfRqo0bFp378RRqeVcuuxk_OmbZ1ci1YkgNteODkLAmZhhmDaMPpSXYragJgNHo9Bl7PhmKh1ojOcxw",
+									"type": "string"
+								},
+								{
+									"key": "tokenType",
+									"value": "bearer",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"3777616f-a80e-4b24-a20f-55e947a81b07\",\n    \"status\": \"SHIPPED\",\n    \"totalAmount\": 60\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Order modified",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"description": {
+											"content": "Added as a part of security scheme: bearer",
+											"type": "text/plain"
+										},
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": \"Dispatched\",\n    \"totalAmount\": 99.99,\n    \"id\": \"3777616f-a80e-4b24-a20f-55e947a81b07\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"status\": \"Dispatched\",\n \"totalAmount\": 99.99,\n \"id\": \"3777616f-a80e-4b24-a20f-55e947a81b07\"\n}"
+						},
+						{
+							"name": "Invalid credentials",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"description": {
+											"content": "Added as a part of security scheme: bearer",
+											"type": "text/plain"
+										},
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": \"Dispatched\",\n    \"totalAmount\": 99.99,\n    \"id\": \"3777616f-a80e-4b24-a20f-55e947a81b07\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"\""
+						},
+						{
+							"name": "Couldn't find order to modify",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"description": {
+											"content": "Added as a part of security scheme: bearer",
+											"type": "text/plain"
+										},
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": \"Dispatched\",\n    \"totalAmount\": 99.99,\n    \"id\": \"3777616f-a80e-4b24-a20f-55e947a81b07\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"\""
+						},
+						{
+							"name": "Nothing to Change",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"description": {
+											"content": "Added as a part of security scheme: bearer",
+											"type": "text/plain"
+										},
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": \"Dispatched\",\n    \"totalAmount\": 99.99,\n    \"id\": \"3777616f-a80e-4b24-a20f-55e947a81b07\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Not Modified",
+							"code": 304,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"\""
+						},
+						{
+							"name": "Bad request",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"description": {
+											"content": "Added as a part of security scheme: bearer",
+											"type": "text/plain"
+										},
+										"key": "Authorization",
+										"value": "Bearer <token>"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": \"Dispatched\",\n    \"totalAmount\": 99.99,\n    \"id\": \"3777616f-a80e-4b24-a20f-55e947a81b07\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"\""
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "oauth2",
+				"oauth2": [
+					{
+						"key": "accessToken",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ4bUc1TnhTb3FtY3lGX3RaanczNWFRTmhGdUdzNWptZjc0QW1fcVU2U05NIn0.eyJqdGkiOiI0MzA4YjkwOS1lMzBhLTRhNjctYWYyMS0xZDUyYzhmZTczODYiLCJleHAiOjE2MDMwMDQwNDUsIm5iZiI6MCwiaWF0IjoxNjAzMDAzNzQ1LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMzMTc0L2F1dGgvcmVhbG1zL2VkLXJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImFiMjFkM2Q4LTMwYjEtNGQ1Zi1hMWZjLWRjYzM3MDY5YzBjZiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImJhY2tlbmQtc2VydmljZSIsImF1dGhfdGltZSI6MTYwMzAwMjE0MSwic2Vzc2lvbl9zdGF0ZSI6IjJjNDM1N2Y2LTI4OTctNDU3NS1hZTQ5LTVlY2M0NGIwNGFjNiIsImFjciI6IjAiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiYWRtaW4iLCJ1c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwidXNlcl9uYW1lIjoiYWRtaW4iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.EDZdXCamSdme-Dx3YJACwBgcw_rw3Xk_118bJOzWz-3fKgDdsqTEW9fdxeM-WHMd8Wz4lq-wh9aICE5uYlguezIfkaXs-6dbLHGKf9nYjNeqTYCpU_Jp7JfszCeDSsJvYIaP-etpKDSnIZJoM5gCahnOHH_J0caFVYlAc0-YISA7rtd8nUhXQTf2XSu5n7Da6KfGuX4WTWTErR2aPt24-4J_eDHn8_76LwS2KS4dqhjA7lTvP4_F7h8odFgCqUhx54dj_hBYFDTd3dyRh5303z1qCpC-2UY10R19hv-T0ilDmqKyaI0z1Tkl_2nGElVg_EZ9IpkclgKdFSydIFnGWA",
+						"type": "string"
+					},
+					{
+						"key": "tokenType",
+						"value": "bearer",
+						"type": "string"
+					},
+					{
+						"key": "addTokenTo",
+						"value": "header",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "23cf0f05-eba5-4c37-8cc6-c421d2ed7d5a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c90b6cea-0dff-4f63-974e-6856c7830821",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "21fe60c5-584e-4ef8-a809-e54a481efa9d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "941a4275-7e78-4612-81d4-73c0c9b360a4",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "b2d59b77-a412-443d-b850-0001d90db538",
+			"key": "baseUrl",
+			"value": "/"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

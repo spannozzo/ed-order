@@ -1,0 +1,213 @@
+---
+openapi: 3.0.2
+info:
+  title: ED Order Main Application
+  contact:
+    name: spannozzo
+    url: http://acme.org/contacts
+    email: spannozzo@acme.org
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: "3.1"
+tags:
+- name: Order
+  description: order CRUD operations
+paths:
+  /orders:
+    get:
+      summary: get list of orders
+      operationId: getOrders
+      responses:
+        "401":
+          description: Invalid credentials
+          content:
+            application/json: {}
+        "404":
+          description: Couldn't find any order
+          content:
+            application/json: {}
+        "200":
+          description: List of Orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order DTO'
+      security:
+      - oauth2: []
+    post:
+      summary: save an order
+      operationId: saveOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order request DTO'
+      responses:
+        "201":
+          description: Order created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order DTO'
+        "401":
+          description: Invalid credentials
+          content:
+            application/json: {}
+        "400":
+          description: Bad request
+          content:
+            application/json: {}
+      security:
+      - oauth2: []
+    patch:
+      summary: edit an order
+      operationId: editOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order DTO'
+      responses:
+        "401":
+          description: Invalid credentials
+          content:
+            application/json: {}
+        "400":
+          description: Bad request
+          content:
+            application/json: {}
+        "404":
+          description: Couldn't find order to modify
+          content:
+            application/json: {}
+        "304":
+          description: Nothing to Change
+          content:
+            application/json: {}
+        "200":
+          description: Order modified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order DTO'
+      security:
+      - oauth2: []
+  /orders/{id}:
+    get:
+      summary: get one order from its id
+      operationId: getOrder
+      parameters:
+      - name: id
+        in: path
+        description: ID of the order
+        required: true
+        schema:
+          pattern: \S
+          type: string
+          nullable: false
+        example: 3777616f-a80e-4b24-a20f-55e947a81b07
+      responses:
+        "401":
+          description: Invalid credentials
+          content:
+            application/json: {}
+        "404":
+          description: Couldn't find any order
+          content:
+            application/json: {}
+        "200":
+          description: Order rapresentation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order DTO'
+      security:
+      - oauth2: []
+    delete:
+      summary: remove an order
+      operationId: deleteOrder
+      parameters:
+      - name: id
+        in: path
+        description: ID of the order
+        required: true
+        schema:
+          pattern: \S
+          type: string
+          nullable: false
+        example: 3777616f-a80e-4b24-a20f-55e947a81b07
+      responses:
+        "401":
+          description: Invalid credentials
+          content:
+            application/json: {}
+        "400":
+          description: Bad request
+          content:
+            application/json: {}
+        "404":
+          description: Couldn't find order to delete
+          content:
+            application/json: {}
+        "200":
+          description: Order deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order DTO'
+      security:
+      - oauth2: []
+components:
+  schemas:
+    Order DTO:
+      description: Return information about an order
+      required:
+      - status
+      - totalAmount
+      - id
+      type: object
+      properties:
+        status:
+          title: Status
+          pattern: \S
+          type: string
+          example: Dispatched
+          nullable: false
+        totalAmount:
+          format: double
+          title: Order Total Amount
+          minimum: 0
+          type: number
+          example: 99.99
+        id:
+          title: Id Order
+          pattern: \S
+          type: string
+          example: 3777616f-a80e-4b24-a20f-55e947a81b07
+          nullable: false
+    Order request DTO:
+      description: map the request on an order
+      required:
+      - status
+      - totalAmount
+      type: object
+      properties:
+        status:
+          title: Status
+          pattern: \S
+          type: string
+          example: Dispatched
+          nullable: false
+        totalAmount:
+          format: double
+          title: Order Total Amount
+          minimum: 0
+          type: number
+          example: 99.99
+  securitySchemes:
+    oauth2:
+      type: http
+      scheme: Bearer
