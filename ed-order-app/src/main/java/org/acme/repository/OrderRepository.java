@@ -1,12 +1,5 @@
 package org.acme.repository;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -16,17 +9,12 @@ import java.util.Optional;
 import javax.enterprise.context.control.ActivateRequestContext;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonValue;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
 import org.acme.dto.OrderDTO;
 import org.acme.entity.Order;
-import org.apache.http.HttpStatus;
+import org.acme.health.HealtCheckService;
 import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 
@@ -34,7 +22,6 @@ import org.eclipse.microprofile.faulttolerance.Fallback;
 
 @Singleton
 @ActivateRequestContext
-//@Timeout(value = 10000)
 @CircuitBreaker(requestVolumeThreshold=2,failureRatio=0.5,delay=5000,successThreshold = 2)
 public class OrderRepository {
 
@@ -43,12 +30,10 @@ public class OrderRepository {
 	
 	@Inject
 	FallBackRepository staticRepository;
-	
-	 private static final HttpClient httpClient = HttpClient.newBuilder()
-	            .version(HttpClient.Version.HTTP_1_1)
-	            .connectTimeout(Duration.ofSeconds(2))
-	            .build();
-	
+
+	@Inject
+	private HealtCheckService healtCheckService;
+		
 	@Fallback (fallbackMethod = "fallbackGetOrders")
 	public Optional<List<Order>> getOrders() {
 		
@@ -72,9 +57,8 @@ public class OrderRepository {
 		
 		synchStaticListWithDB();
 		
-		Optional<Order> list=Order.findByIdOptional(id);
+		return Order.findByIdOptional(id);
 
-		return list;
 	}
 	Optional<Order> fallbackFindById(@NotBlank String id){
 		staticRepository.setFalling(true);
@@ -174,45 +158,8 @@ public class OrderRepository {
 
 	@Fallback (fallbackMethod = "fallbackAllignDB")
 	void synchStaticListWithDB() {
-		if (staticRepository.wasFalling()) {
-			HttpRequest request = HttpRequest.newBuilder()
-	                .GET()
-	                .uri(URI.create("http://localhost:8080/health/ready"))
-	                .setHeader("User-Agent", "Java 11 HttpClient") // add request header
-	                .build();
-			
-	        try {
-				HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-				
-				if (response.statusCode()==HttpStatus.SC_OK) {
-					allignDB();
-					
-				}
-				if (response.statusCode()==HttpStatus.SC_SERVICE_UNAVAILABLE) {
-					JsonReader jsonReader = Json.createReader(new StringReader(response.body()));
-					JsonObject jsonResponse=jsonReader.readObject();
-					
-					JsonArray checks=jsonResponse.getJsonArray("checks");
-					
-					Optional<JsonValue> dbHealtCheckOptional=checks.parallelStream().
-												filter(json->json.asJsonObject().getString("name").equals("Database connections health check"))
-												.findFirst();
-					if (dbHealtCheckOptional.isPresent()) {
-						if(dbHealtCheckOptional.get().asJsonObject().getString("status").equals("UP")) {
-							allignDB();
-						}
-					}
-					
-					System.out.println(jsonResponse);
-				}
-				
-				
-				
-			} catch (IOException | InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+		if (staticRepository.wasFalling() && healtCheckService.isDbUp()) {
+			allignDB();
 		}
 	}
 	

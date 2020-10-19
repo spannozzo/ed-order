@@ -34,19 +34,18 @@ public class FallBackRepository {
 	public List<Order> getOrderList() {
 		return orderList;
 	}
-
-//	@PostConstruct
+	
 	void init() {
 		orderList=new ArrayList<>();
 		falling=false;
+		
 		loadFromDb();
 	}
 
 	void onStart(@Observes StartupEvent ev) {
        init();
     }
-	
-	
+
 	@Fallback (fallbackMethod = "fallbackLoadFromDB")
     @CircuitBreaker(requestVolumeThreshold=2,
                     failureRatio=0.5,

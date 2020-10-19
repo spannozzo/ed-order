@@ -231,13 +231,11 @@ public class OrderController {
 	}
 	
 	void checkAndSend(Order toEdit, String oldStatus) {
-		if (messagesAreEnabled) {
-			
-			if (!toEdit.status.equals(oldStatus)) {
+		if (messagesAreEnabled && !toEdit.status.equals(oldStatus)) {
 				
-				MessageDTO message=MessageDTO.fromOrderToMessage(oldStatus,toEdit);
-				messageEmitter.send(message);  
-			}
+			MessageDTO message=MessageDTO.fromOrderToMessage(oldStatus,toEdit);
+			messageEmitter.send(message);  
 		}
+		
 	}
 }

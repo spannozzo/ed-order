@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.keycloak.representations.AccessTokenResponse;
+
+
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -14,9 +16,10 @@ import static org.hamcrest.Matchers.notNullValue;
 
 import java.util.UUID;
 
+import javax.transaction.Transactional;
+
 import org.acme.dto.OrderDTO;
 import org.acme.dto.OrderRequestDTO;
-
 import org.apache.http.HttpStatus;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -64,6 +67,15 @@ class OrderControllerTest {
 	
 	static OrderDTO editDTO;
 	
+		
+	@Test
+	@Order(0)
+	@Transactional
+	void static_and_db_order_list_should_be_empty_at_startup() {
+			
+		org.acme.entity.Order.deleteAll();
+		assertThat(org.acme.entity.Order.count(), is(0L));
+	}
 	@Test
 	@Order(0)
 	void admin_should_retrieve_token() {
