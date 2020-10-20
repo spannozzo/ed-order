@@ -158,7 +158,8 @@ public class OrderRepository {
 
 	@Fallback (fallbackMethod = "fallbackAllignDB")
 	void synchStaticListWithDB() {
-		if (staticRepository.wasFalling() && healtCheckService.isDbUp()) {
+		if (staticRepository.wasFalling() &&
+				healtCheckService.isDbUp()) {
 			allignDB();
 		}
 	}

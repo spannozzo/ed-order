@@ -24,14 +24,19 @@ java 11
 from main folder you need to move to ed-order-app and run:
 
 ```
+mvn clean package -Pnative -Dquarkus.native.container-build=true -DskipTests
+
+```
+while in the folder order-change-listener:
+```
 mvn clean package -DskipTests
 ```
-Same operation must be done on order-change-listener folder. After both jars are ready you have to run :
+After both jars are ready you have to run :
 ```
 docker-compose up -d --build
 ```
 and the application will start. 
-If you want to run the tests you have to use a second docker mongodb container, specific for tests:
+If you want to run the tests you have to use a second docker db container, specific for tests:
 
 ```
 docker run --rm -d -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD="1234" -e POSTGRES_DB=order_db_test --name order_db_test postgres:alpine
@@ -57,7 +62,7 @@ localhost:8080/swagger-ui-custom.html
 In any case you need a token to authenticate the rest calls, so you can use Postman configuration and pass the token manually from the swagger-ui page. 
 You can run also the application with remote debug from your IDE usin port 5005 .
 The Opean API YAML file can be imported for generating Postman documentation, on Postman use import button and select open api file, then next. Postman will generate a collection of documented API call. 
-A final copy of this file is already in the main folder of the application, however is better to use the additional postman import file, which will provide also the token generation settings and all the urls and ports already configured.
+A final copy of this file is already in the main folder of the application, however is better to use the additional postman files, which will provide also the token generation settings and all urls and ports already configured.
 
 ## Version History
 

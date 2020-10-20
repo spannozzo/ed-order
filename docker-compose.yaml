@@ -57,7 +57,7 @@ services:
     image: spannozzo/ed-order-app:latest
     build: 
       context: ./ed-order-app/
-      dockerfile: ./src/main/docker/Dockerfile.jvm
+      dockerfile: ./src/main/docker/Dockerfile.native
     container_name: order-app  
     # volumes:
       # - ./ed-order-app/src/main/resources/import.sql/:/import.sql
